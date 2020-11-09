@@ -9,11 +9,12 @@ const loopback = require('loopback');
 const boot = require('loopback-boot');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const { Role, User } = require('loopback');
 const app = module.exports = loopback();
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use((req, res, next) => {
-  console.log("boot script",req.cookies);
+  User.disableRemoteMethodByName("find");
   next();
 })
 app.start = function () {
