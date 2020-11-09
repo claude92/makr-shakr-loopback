@@ -1,10 +1,15 @@
 'use strict';
 const jwt = require('jsonwebtoken');
 
-module.exports = function(app) {
+module.exports = function (app) {
   var Role = app.models.Role;
   Role.registerResolver('JWTauthenticated', (role, context, cb) => {
-    let accessToken = context.remotingContext.req.cookies.jwt;
+    let accessToken = context.remotingContext.req.headers.authorization;
+    if(accessToken){
+      accessToken = accessToken.split(' ')[1];
+    }
+    console.log(accessToken);
+    // Bearer <token>
     if (!accessToken) {
       return process.nextTick(() => cb(null, false));
     }

@@ -17,9 +17,8 @@ module.exports = {
             status = 200;
             const payload = {user: user.email};
             let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {algorithm: 'HS256', expiresIn: process.env.ACCESS_TOKEN_LIFE});
-            let refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {algorithm: 'HS256', expiresIn: process.env.REFRESH_TOKEN_LIFE});
             res.cookie('jwt', accessToken, {httpOnly: true});
-            res.status(status).send({login:accessToken });
+            res.status(status).send({token: accessToken});
           } else {
                         // unauthorized
             res.status(401).send('WRONG_PASSWORD');
